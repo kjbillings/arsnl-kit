@@ -1,0 +1,22 @@
+@import "../sizes/index.scss";
+
+$font-default-family: Helvetica;
+$font-default-weight: 300;
+$font-default-size: $size-unit;
+$font-default-kerning: 0.05em;
+$font-default-leading: 1.2em;
+
+$font-display-family: inherit;
+$font-display-size: inherit;
+$font-display-kerning: inherit;
+$font-display-leading: inherit;
+
+$font-action-family: inherit;
+$font-action-size: inherit;
+$font-action-kerning: inherit;
+$font-action-leading: inherit;
+
+$font-caption-family: inherit;
+$font-caption-size: inherit;
+$font-caption-kerning: inherit;
+$font-caption-leading: inherit;

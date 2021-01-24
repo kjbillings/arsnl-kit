@@ -3,8 +3,10 @@
     "version": "1.0.0",
     "description": "UI Kit components built using ARSNL",
     "main": "dist/index.js",
+    "style": "./dist/index.css",
     "scripts": {
-        "build": "rollup --config rollup.config.js --watch"
+        "build": "rollup --config rollup.config.js",
+        "buildWatch": "rollup --watch --config rollup.config.js"
     },
     "repository": {
         "type": "git",
@@ -16,21 +18,21 @@
         "url": "https://github.com/kjbillings/arsnl-kit/issues"
     },
     "homepage": "https://github.com/kjbillings/arsnl-kit#readme",
-    "peerDependencies": {
-        "@kjbillings/arsnl": "file:../arsnl",
+    "dependencies": {
+        "arsnl": "file:../arsnl",
+        "clsx": "^1.1.0",
+        "fs": "0.0.1-security",
         "lodash": "^4.17.15",
-        "clsx": "^1.1.0"
+        "write": "^2.0.0"
     },
     "devDependencies": {
-        "@kjbillings/arsnl": "file:../arsnl",
-        "clsx": "^1.1.0",
-        "lodash": "^4.17.15",
-        "path-to-regexp": "^6.1.0",
-        "querystring": "^0.2.0",
+        "@rollup/plugin-node-resolve": "^7.1.1",
         "rollup": "^2.0.6",
         "rollup-plugin-commonjs": "^10.1.0",
         "rollup-plugin-node-builtins": "^2.1.2",
-        "rollup-plugin-node-resolve": "^5.2.0",
         "rollup-plugin-sass": "^1.2.2"
+    },
+    "peerDependencies": {
+        "fs": "0.0.1-security"
     }
 }

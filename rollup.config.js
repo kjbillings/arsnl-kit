@@ -1,7 +1,7 @@
+import resolve from '@rollup/plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
-import resolve from 'rollup-plugin-node-resolve'
 import sass from 'rollup-plugin-sass'
-import { main, peerDependencies } from './package.json'
+import { main } from './package.json'
 
 export default {
     input: './lib/index.js',
@@ -9,12 +9,33 @@ export default {
         file: main,
         format: 'cjs',
     },
+    watch: {
+        include: [
+            'src/**',
+        ]
+    },
     plugins: [
-        commonjs({
-            exclude: /node_modules/,
+        resolve({
+            preferBuiltins: true,
         }),
-        resolve({ preferBuiltins: true }),
-        sass(),
-    ],
-    external: Object.keys(peerDependencies || {}),
+        commonjs({
+            include: [
+                'node_modules/**',
+                '../arsnl/dist/index.js',
+            ],
+            namedExports: {
+                'node_modules/lodash/lodash.js': [
+                    'get',
+                    'includes',
+                    'isArray',
+                    'isNull',
+                    'isObject',
+                    'isFunction',
+                    'isUndefined',
+                    'reduce',
+                ]
+            }
+        }),
+        sass({ output: true }),
+    ]
 }

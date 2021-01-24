@@ -1,0 +1,51 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+button {
+    cursor: pointer;
+    display: inline-block;
+    font-size: $size-unit * 0.9;
+    line-height: $size-unit * 1.2;
+    letter-spacing: $size-unit * 0.01;
+    padding: $size-medium*1.5;
+    border-width: 1px;
+    border-style: solid;
+    outline: none medium dashed;
+    transition: $transition-default;
+    @include buttonColor($color-option-2, $color-option-4);
+
+    &.round {
+        @include round;
+    }
+    &.rounded {
+        @include rounded;
+    }
+    &.rounded-small {
+        @include roundedSmall;
+    }
+    &.inline {
+        padding: $size-small*0.25 $size-small;
+        font-size: $size-unit * 0.8;
+        line-height: $size-unit;
+        margin: $size-small*-0.5 0;
+        vertical-align: middle;
+    }
+    &.accent {
+        @include buttonColor($color-accent, $color-option-2);
+    }
+    &.main {
+        @include buttonColor($color-substrate-dark, $color-option-4);
+    }
+
+    &:disabled {
+        opacity: 0.85;
+        cursor: not-allowed;
+    }
+    &:hover,
+    &:focus {
+        z-index: 2;
+    }
+    &:active {
+        outline: none;
+    }
+}

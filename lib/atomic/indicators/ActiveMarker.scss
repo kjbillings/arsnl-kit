@@ -1,0 +1,40 @@
+@import "../../variables.scss";
+
+.active-marker {
+    position: absolute;
+    z-index: 3;
+    @include transition;
+    pointer-events: none;
+
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        border-radius: 4px;
+        background: $color-accent;
+    }
+    &.bottom:after {
+        left: 15%;
+        top: 100%;
+        height: 4px;
+        width: 70%;
+    }
+    &.top:after {
+        left: 15%;
+        top: -4px;
+        height: 4px;
+        width: 70%;
+    }
+    &.left:after {
+        top: 15%;
+        left: -4px;
+        width: 4px;
+        height: 70%;
+    }
+    &.right:after {
+        top: 15%;
+        right: -4px;
+        width: 4px;
+        height: 70%;
+    }
+}

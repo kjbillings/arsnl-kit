@@ -1,0 +1,36 @@
+.app-frame {
+    min-height:100vh;
+    min-width: 100vw;
+
+    .app-frame-top,
+    .app-frame-bottom,
+    .app-frame-left,
+    .app-frame-right {
+        display:flex;
+        position: fixed;
+    }
+    .app-frame-top,
+    .app-frame-bottom {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .app-frame-left,
+    .app-frame-right {
+        top: 0; 
+        height: 100%;
+    }
+    .app-frame-top {
+        top: 0;
+    }
+    .app-frame-bottom {
+        bottom: 0;
+    }
+    .app-frame-left {
+        left: 0;
+        justify-content: flex-start;
+    }
+    .app-frame-right {
+        right: 0;
+        justify-content: flex-end;
+    }
+}
