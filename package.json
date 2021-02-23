@@ -23,7 +23,7 @@
         "jetpak-css": "file:../jetpak-css",
         "clsx": "^1.1.0",
         "fs": "0.0.1-security",
-        "lodash": "^4.17.15",
+        "lodash": "^4.17.19",
         "write": "^2.0.0"
     },
     "devDependencies": {
