@@ -17364,20 +17364,20 @@ exports.update = updateStyleTag;
 });
 
 unwrapExports(dist);
-var dist_1 = dist.JetPakCss;
+dist.JetPakCss;
 var dist_2 = dist.css;
-var dist_3 = dist.getJetpak;
-var dist_4 = dist.getPrefix;
-var dist_5 = dist.getPreloader;
-var dist_6 = dist.getStyle;
-var dist_7 = dist.getStyleTag;
-var dist_8 = dist.getTheme;
-var dist_9 = dist.gradient;
+dist.getJetpak;
+dist.getPrefix;
+dist.getPreloader;
+dist.getStyle;
+dist.getStyleTag;
+dist.getTheme;
+dist.gradient;
 var dist_10 = dist.parseCss;
-var dist_11 = dist.px;
-var dist_12 = dist.stringifyProperties;
-var dist_13 = dist.stringifySelectors;
-var dist_14 = dist.update;
+dist.px;
+dist.stringifyProperties;
+dist.stringifySelectors;
+dist.update;
 
 const getBase = (theme) => {
     const { style } = dist_10({
@@ -17742,7 +17742,7 @@ const getSpacing = (theme) => {
 };
 
 const getTransitions = (theme) => {
-    const { withUnit } = theme.size;
+    theme.size;
     const { style } = dist_10({
 
         'ease-out-125': { transition: 'all 125ms ease-out', },
@@ -17844,14 +17844,15 @@ var lodash = createCommonjsModule(function (module, exports) {
   var undefined$1;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.15';
+  var VERSION = '4.17.21';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
 
   /** Error message constants. */
   var CORE_ERROR_TEXT = 'Unsupported core-js use. Try https://npms.io/search?q=ponyfill.',
-      FUNC_ERROR_TEXT = 'Expected a function';
+      FUNC_ERROR_TEXT = 'Expected a function',
+      INVALID_TEMPL_VAR_ERROR_TEXT = 'Invalid `variable` option passed into `_.template`';
 
   /** Used to stand-in for `undefined` hash values. */
   var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -17984,10 +17985,11 @@ var lodash = createCommonjsModule(function (module, exports) {
   var reRegExpChar = /[\\^$.*+?()[\]{}|]/g,
       reHasRegExpChar = RegExp(reRegExpChar.source);
 
-  /** Used to match leading and trailing whitespace. */
-  var reTrim = /^\s+|\s+$/g,
-      reTrimStart = /^\s+/,
-      reTrimEnd = /\s+$/;
+  /** Used to match leading whitespace. */
+  var reTrimStart = /^\s+/;
+
+  /** Used to match a single whitespace character. */
+  var reWhitespace = /\s/;
 
   /** Used to match wrap detail comments. */
   var reWrapComment = /\{(?:\n\/\* \[wrapped with .+\] \*\/)?\n?/,
@@ -17996,6 +17998,18 @@ var lodash = createCommonjsModule(function (module, exports) {
 
   /** Used to match words composed of alphanumeric characters. */
   var reAsciiWord = /[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g;
+
+  /**
+   * Used to validate the `validate` option in `_.template` variable.
+   *
+   * Forbids characters which could potentially change the meaning of the function argument definition:
+   * - "()," (modification of function parameters)
+   * - "=" (default value)
+   * - "[]{}" (destructuring of function parameters)
+   * - "/" (beginning of a comment)
+   * - whitespace
+   */
+  var reForbiddenIdentifierChars = /[()=,{}\[\]\/\s]/;
 
   /** Used to match backslashes in property paths. */
   var reEscapeChar = /\\(\\)?/g;
@@ -18254,7 +18268,7 @@ var lodash = createCommonjsModule(function (module, exports) {
   var root = freeGlobal || freeSelf || Function('return this')();
 
   /** Detect free variable `exports`. */
-  var freeExports =  exports && !exports.nodeType && exports;
+  var freeExports = exports && !exports.nodeType && exports;
 
   /** Detect free variable `module`. */
   var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
@@ -18826,6 +18840,19 @@ var lodash = createCommonjsModule(function (module, exports) {
   }
 
   /**
+   * The base implementation of `_.trim`.
+   *
+   * @private
+   * @param {string} string The string to trim.
+   * @returns {string} Returns the trimmed string.
+   */
+  function baseTrim(string) {
+    return string
+      ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
+      : string;
+  }
+
+  /**
    * The base implementation of `_.unary` without support for storing metadata.
    *
    * @private
@@ -19156,6 +19183,21 @@ var lodash = createCommonjsModule(function (module, exports) {
     return hasUnicode(string)
       ? unicodeToArray(string)
       : asciiToArray(string);
+  }
+
+  /**
+   * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
+   * character of `string`.
+   *
+   * @private
+   * @param {string} string The string to inspect.
+   * @returns {number} Returns the index of the last non-whitespace character.
+   */
+  function trimmedEndIndex(string) {
+    var index = string.length;
+
+    while (index-- && reWhitespace.test(string.charAt(index))) {}
+    return index;
   }
 
   /**
@@ -21551,8 +21593,21 @@ var lodash = createCommonjsModule(function (module, exports) {
      * @returns {Array} Returns the new sorted array.
      */
     function baseOrderBy(collection, iteratees, orders) {
+      if (iteratees.length) {
+        iteratees = arrayMap(iteratees, function(iteratee) {
+          if (isArray(iteratee)) {
+            return function(value) {
+              return baseGet(value, iteratee.length === 1 ? iteratee[0] : iteratee);
+            }
+          }
+          return iteratee;
+        });
+      } else {
+        iteratees = [identity];
+      }
+
       var index = -1;
-      iteratees = arrayMap(iteratees.length ? iteratees : [identity], baseUnary(getIteratee()));
+      iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
 
       var result = baseMap(collection, function(value, key, collection) {
         var criteria = arrayMap(iteratees, function(iteratee) {
@@ -21809,6 +21864,10 @@ var lodash = createCommonjsModule(function (module, exports) {
         var key = toKey(path[index]),
             newValue = value;
 
+        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+          return object;
+        }
+
         if (index != lastIndex) {
           var objValue = nested[key];
           newValue = customizer ? customizer(objValue, key, nested) : undefined$1;
@@ -21961,11 +22020,14 @@ var lodash = createCommonjsModule(function (module, exports) {
      *  into `array`.
      */
     function baseSortedIndexBy(array, value, iteratee, retHighest) {
-      value = iteratee(value);
-
       var low = 0,
-          high = array == null ? 0 : array.length,
-          valIsNaN = value !== value,
+          high = array == null ? 0 : array.length;
+      if (high === 0) {
+        return 0;
+      }
+
+      value = iteratee(value);
+      var valIsNaN = value !== value,
           valIsNull = value === null,
           valIsSymbol = isSymbol(value),
           valIsUndefined = value === undefined$1;
@@ -23450,10 +23512,11 @@ var lodash = createCommonjsModule(function (module, exports) {
       if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
         return false;
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(array);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var arrStacked = stack.get(array);
+      var othStacked = stack.get(other);
+      if (arrStacked && othStacked) {
+        return arrStacked == other && othStacked == array;
       }
       var index = -1,
           result = true,
@@ -23615,10 +23678,11 @@ var lodash = createCommonjsModule(function (module, exports) {
           return false;
         }
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(object);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var objStacked = stack.get(object);
+      var othStacked = stack.get(other);
+      if (objStacked && othStacked) {
+        return objStacked == other && othStacked == object;
       }
       var result = true;
       stack.set(object, other);
@@ -26999,6 +27063,10 @@ var lodash = createCommonjsModule(function (module, exports) {
      * // The `_.property` iteratee shorthand.
      * _.filter(users, 'active');
      * // => objects for ['barney']
+     *
+     * // Combining several predicates using `_.overEvery` or `_.overSome`.
+     * _.filter(users, _.overSome([{ 'age': 36 }, ['age', 40]]));
+     * // => objects for ['fred', 'barney']
      */
     function filter(collection, predicate) {
       var func = isArray(collection) ? arrayFilter : baseFilter;
@@ -27748,15 +27816,15 @@ var lodash = createCommonjsModule(function (module, exports) {
      * var users = [
      *   { 'user': 'fred',   'age': 48 },
      *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 },
+     *   { 'user': 'fred',   'age': 30 },
      *   { 'user': 'barney', 'age': 34 }
      * ];
      *
      * _.sortBy(users, [function(o) { return o.user; }]);
-     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 30]]
      *
      * _.sortBy(users, ['user', 'age']);
-     * // => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
+     * // => objects for [['barney', 34], ['barney', 36], ['fred', 30], ['fred', 48]]
      */
     var sortBy = baseRest(function(collection, iteratees) {
       if (collection == null) {
@@ -30300,7 +30368,7 @@ var lodash = createCommonjsModule(function (module, exports) {
       if (typeof value != 'string') {
         return value === 0 ? value : +value;
       }
-      value = value.replace(reTrim, '');
+      value = baseTrim(value);
       var isBinary = reIsBinary.test(value);
       return (isBinary || reIsOctal.test(value))
         ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
@@ -32631,11 +32699,11 @@ var lodash = createCommonjsModule(function (module, exports) {
 
       // Use a sourceURL for easier debugging.
       // The sourceURL gets injected into the source that's eval-ed, so be careful
-      // with lookup (in case of e.g. prototype pollution), and strip newlines if any.
-      // A newline wouldn't be a valid sourceURL anyway, and it'd enable code injection.
+      // to normalize all kinds of whitespace, so e.g. newlines (and unicode versions of it) can't sneak in
+      // and escape the comment, thus injecting code that gets evaled.
       var sourceURL = '//# sourceURL=' +
         (hasOwnProperty.call(options, 'sourceURL')
-          ? (options.sourceURL + '').replace(/[\r\n]/g, ' ')
+          ? (options.sourceURL + '').replace(/\s/g, ' ')
           : ('lodash.templateSources[' + (++templateCounter) + ']')
         ) + '\n';
 
@@ -32668,12 +32736,16 @@ var lodash = createCommonjsModule(function (module, exports) {
 
       // If `variable` is not specified wrap a with-statement around the generated
       // code to add the data object to the top of the scope chain.
-      // Like with sourceURL, we take care to not check the option's prototype,
-      // as this configuration is a code injection vector.
       var variable = hasOwnProperty.call(options, 'variable') && options.variable;
       if (!variable) {
         source = 'with (obj) {\n' + source + '\n}\n';
       }
+      // Throw an error if a forbidden character was found in `variable`, to prevent
+      // potential command injection attacks.
+      else if (reForbiddenIdentifierChars.test(variable)) {
+        throw new Error(INVALID_TEMPL_VAR_ERROR_TEXT);
+      }
+
       // Cleanup code by stripping empty strings.
       source = (isEvaluating ? source.replace(reEmptyStringLeading, '') : source)
         .replace(reEmptyStringMiddle, '$1')
@@ -32787,7 +32859,7 @@ var lodash = createCommonjsModule(function (module, exports) {
     function trim(string, chars, guard) {
       string = toString(string);
       if (string && (guard || chars === undefined$1)) {
-        return string.replace(reTrim, '');
+        return baseTrim(string);
       }
       if (!string || !(chars = baseToString(chars))) {
         return string;
@@ -32822,7 +32894,7 @@ var lodash = createCommonjsModule(function (module, exports) {
     function trimEnd(string, chars, guard) {
       string = toString(string);
       if (string && (guard || chars === undefined$1)) {
-        return string.replace(reTrimEnd, '');
+        return string.slice(0, trimmedEndIndex(string) + 1);
       }
       if (!string || !(chars = baseToString(chars))) {
         return string;
@@ -33376,6 +33448,9 @@ var lodash = createCommonjsModule(function (module, exports) {
      * values against any array or object value, respectively. See `_.isEqual`
      * for a list of supported value comparisons.
      *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
+     *
      * @static
      * @memberOf _
      * @since 3.0.0
@@ -33391,6 +33466,10 @@ var lodash = createCommonjsModule(function (module, exports) {
      *
      * _.filter(objects, _.matches({ 'a': 4, 'c': 6 }));
      * // => [{ 'a': 4, 'b': 5, 'c': 6 }]
+     *
+     * // Checking for several possible values
+     * _.filter(objects, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matches(source) {
       return baseMatches(baseClone(source, CLONE_DEEP_FLAG));
@@ -33404,6 +33483,9 @@ var lodash = createCommonjsModule(function (module, exports) {
      * **Note:** Partial comparisons will match empty array and empty object
      * `srcValue` values against any array or object value, respectively. See
      * `_.isEqual` for a list of supported value comparisons.
+     *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
      *
      * @static
      * @memberOf _
@@ -33421,6 +33503,10 @@ var lodash = createCommonjsModule(function (module, exports) {
      *
      * _.find(objects, _.matchesProperty('a', 4));
      * // => { 'a': 4, 'b': 5, 'c': 6 }
+     *
+     * // Checking for several possible values
+     * _.filter(objects, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matchesProperty(path, srcValue) {
       return baseMatchesProperty(path, baseClone(srcValue, CLONE_DEEP_FLAG));
@@ -33644,6 +33730,10 @@ var lodash = createCommonjsModule(function (module, exports) {
      * Creates a function that checks if **all** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -33670,6 +33760,10 @@ var lodash = createCommonjsModule(function (module, exports) {
      * Creates a function that checks if **any** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -33689,6 +33783,9 @@ var lodash = createCommonjsModule(function (module, exports) {
      *
      * func(NaN);
      * // => false
+     *
+     * var matchesFunc = _.overSome([{ 'a': 1 }, { 'a': 2 }])
+     * var matchesPropertyFunc = _.overSome([['a', 1], ['a', 2]])
      */
     var overSome = createOver(arraySome);
 
@@ -34929,18 +35026,18 @@ var lodash = createCommonjsModule(function (module, exports) {
   }
 }.call(commonjsGlobal));
 });
-var lodash_1 = lodash.get;
-var lodash_2 = lodash.set;
-var lodash_3 = lodash.forEach;
-var lodash_4 = lodash.includes;
-var lodash_5 = lodash.isArray;
+lodash.get;
+lodash.set;
+lodash.forEach;
+lodash.includes;
+lodash.isArray;
 var lodash_6 = lodash.isString;
-var lodash_7 = lodash.isEmpty;
-var lodash_8 = lodash.isNull;
-var lodash_9 = lodash.isObject;
-var lodash_10 = lodash.isFunction;
-var lodash_11 = lodash.isUndefined;
-var lodash_12 = lodash.reduce;
+lodash.isEmpty;
+lodash.isNull;
+lodash.isObject;
+lodash.isFunction;
+lodash.isUndefined;
+lodash.reduce;
 
 var dist$1 = createCommonjsModule(function (module, exports) {
 
@@ -52379,11 +52476,11 @@ var lodash = createCommonjsModule(function (module, exports) {
 });
 var lodash_1 = lodash.forEach;
 var lodash_2 = lodash.get;
-var lodash_3 = lodash.set;
+lodash.set;
 var lodash_4 = lodash.isArray;
 var lodash_5 = lodash.includes;
 var lodash_6 = lodash.isEmpty;
-var lodash_7 = lodash.isEqual;
+lodash.isEqual;
 var lodash_8 = lodash.isFunction;
 var lodash_9 = lodash.isNull;
 var lodash_10 = lodash.isNumber;
@@ -52504,10 +52601,10 @@ var querystring = createCommonjsModule(function (module, exports) {
 exports.decode = exports.parse = decode;
 exports.encode = exports.stringify = encode;
 });
-var querystring_1 = querystring.decode;
-var querystring_2 = querystring.parse;
-var querystring_3 = querystring.encode;
-var querystring_4 = querystring.stringify;
+querystring.decode;
+querystring.parse;
+querystring.encode;
+querystring.stringify;
 
 var qs = {
     parse: (search) => {
@@ -52950,53 +53047,56 @@ exports.waitForRender = waitForRender;
 });
 
 unwrapExports(dist$1);
-var dist_1$1 = dist$1.App;
-var dist_2$1 = dist$1.Link;
-var dist_3$1 = dist$1.Router;
-var dist_4$1 = dist$1.State;
-var dist_5$1 = dist$1.extract;
-var dist_6$1 = dist$1.isConfig;
-var dist_7$1 = dist$1.isDomNode;
-var dist_8$1 = dist$1.namespace;
-var dist_9$1 = dist$1.navigate;
+dist$1.App;
+dist$1.Link;
+dist$1.Router;
+dist$1.State;
+dist$1.extract;
+var dist_6 = dist$1.isConfig;
+dist$1.isDomNode;
+dist$1.namespace;
+dist$1.navigate;
 var dist_10$1 = dist$1.r;
-var dist_11$1 = dist$1.resolveConfig;
-var dist_12$1 = dist$1.subscribe;
-var dist_13$1 = dist$1.waitForRender;
+var dist_11 = dist$1.resolveConfig;
+dist$1.subscribe;
+dist$1.waitForRender;
 
 function toVal(mix) {
 	var k, y, str='';
-	if (mix) {
-		if (typeof mix === 'object') {
-			if (Array.isArray(mix)) {
-				for (k=0; k < mix.length; k++) {
-					if (mix[k] && (y = toVal(mix[k]))) {
-						str && (str += ' ');
-						str += y;
-					}
-				}
-			} else {
-				for (k in mix) {
-					if (mix[k] && (y = toVal(k))) {
+
+	if (typeof mix === 'string' || typeof mix === 'number') {
+		str += mix;
+	} else if (typeof mix === 'object') {
+		if (Array.isArray(mix)) {
+			for (k=0; k < mix.length; k++) {
+				if (mix[k]) {
+					if (y = toVal(mix[k])) {
 						str && (str += ' ');
 						str += y;
 					}
 				}
 			}
-		} else if (typeof mix !== 'boolean' && !mix.call) {
-			str && (str += ' ');
-			str += mix;
+		} else {
+			for (k in mix) {
+				if (mix[k]) {
+					str && (str += ' ');
+					str += k;
+				}
+			}
 		}
 	}
+
 	return str;
 }
 
 function clsx () {
-	var i=0, x, str='';
+	var i=0, tmp, x, str='';
 	while (i < arguments.length) {
-		if (x = toVal(arguments[i++])) {
-			str && (str += ' ');
-			str += x;
+		if (tmp = arguments[i++]) {
+			if (x = toVal(tmp)) {
+				str && (str += ' ');
+				str += x;
+			}
 		}
 	}
 	return str;
@@ -53006,9 +53106,9 @@ function clsx () {
 
 const build = (tag, defaultAttrs={}) => (
     (configOrRender, configOrTrackers) => {
-        if (dist_6$1(configOrRender)) {
+        if (dist_6(configOrRender)) {
             return dist_10$1(() => {
-                const conf = dist_11$1(configOrRender);
+                const conf = dist_11(configOrRender);
                 return {
                     ...defaultAttrs,
                     ...conf,
@@ -53018,8 +53118,8 @@ const build = (tag, defaultAttrs={}) => (
             }, configOrTrackers)
         }
 
-        if (dist_6$1(configOrTrackers)) {
-            const conf = dist_11$1(configOrTrackers);
+        if (dist_6(configOrTrackers)) {
+            const conf = dist_11(configOrTrackers);
             return dist_10$1({
                 ...defaultAttrs,
                 ...conf,

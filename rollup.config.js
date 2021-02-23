@@ -21,8 +21,6 @@ export default {
         commonjs({
             include: [
                 'node_modules/**',
-                '../arsnl/dist/index.js',
-                '../jetpak-css/dist/index.js',
             ],
             namedExports: {
                 'node_modules/lodash/lodash.js': [
