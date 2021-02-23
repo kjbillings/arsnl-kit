@@ -20,6 +20,7 @@
     "homepage": "https://github.com/kjbillings/arsnl-kit#readme",
     "dependencies": {
         "arsnl": "file:../arsnl",
+        "jetpak-css": "file:../jetpak-css",
         "clsx": "^1.1.0",
         "fs": "0.0.1-security",
         "lodash": "^4.17.15",
