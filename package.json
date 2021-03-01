@@ -1,6 +1,6 @@
 {
     "name": "arsnl-kit",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "UI Kit components built using ARSNL",
     "main": "dist/index.js",
     "style": "./dist/index.css",
