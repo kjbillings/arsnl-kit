@@ -17299,31 +17299,13 @@ var updateStyleTag = () => {
     }
 };
 
-const angles = {
-    mozWeb: {
-        'diagonal-down': (a, b) => `-45deg, ${a} 0%, ${b} 100%`,
-        'diagonal-up': (a, b) => `45deg, ${a} 0%, ${b} 100%`,
-        vertical: (a, b) => `top, ${a} 0%, ${b} 100%`,
-        horizontal: (a, b) => `left, ${a} 0%, ${b} 100%`,
-        radial: (a, b) => `center, ellipse cover, ${a} 0%, ${b} 100%`,
-    },
-    generic: {
-        'diagonal-down': (a, b) => `135deg, ${a} 0%,${b} 100%`,
-        'diagonal-up': (a, b) => `45deg, ${a} 0%,${b} 100%`,
-        vertical: (a, b) => `to bottom, ${a} 0%,${b} 100%`,
-        horizontal: (a, b) => `to right, ${a} 0%,${b} 100%`,
-        radial: (a, b) => `ellipse at center, ${a} 0%,${b} 100%`,
-    },
-};
-
-var gradient = (a, b, angle="vertical") => ({
-    background: a,
-    background: `-moz-linear-gradient(${angles.mozWeb[angle](a, b)})`,
-    background: `-webkit-linear-gradient(${angles.mozWeb[angle](a, b)})`,
-    background: `linear-gradient(${angles.generic[angle](a, b)})`,
-});
-
+const pxRegEx = /([\d]+)px/g;
 const px = n => `${n}px`;
+const unpx = str => (
+    pxRegEx.test(str)
+        ? Number(str.slice(0, str.length - 2))
+        : str
+);
 
 const JetPakCss = class JetPakCss {
     constructor (config={}) {
@@ -17355,11 +17337,11 @@ exports.getPreloader = getPreloader;
 exports.getStyle = getStyle;
 exports.getStyleTag = getStyleTag;
 exports.getTheme = getTheme;
-exports.gradient = gradient;
 exports.parseCss = parseCss;
 exports.px = px;
 exports.stringifyProperties = stringifyProperties;
 exports.stringifySelectors = stringifySelectors;
+exports.unpx = unpx;
 exports.update = updateStyleTag;
 });
 
@@ -17372,15 +17354,15 @@ dist.getPreloader;
 dist.getStyle;
 dist.getStyleTag;
 dist.getTheme;
-dist.gradient;
-var dist_10 = dist.parseCss;
+var dist_9 = dist.parseCss;
 dist.px;
 dist.stringifyProperties;
 dist.stringifySelectors;
+dist.unpx;
 dist.update;
 
 const getBase = (theme) => {
-    const { style } = dist_10({
+    const { style } = dist_9({
         body: {
             margin: 0,
             lineHeight: 1,
@@ -17394,7 +17376,7 @@ const getBase = (theme) => {
 const getButtons = (theme) => {
     const { size, colors } = theme;
     const { withUnit } = size;
-    const { style } = dist_10({
+    const { style } = dist_9({
         'button': {
             cursor: 'pointer',
             borderWidth: 0,
@@ -17468,7 +17450,7 @@ const getColors = theme => {
     const wa = c.warning;
     const er = c.error;
     const su = c.success;
-    const { style } = dist_10({
+    const { style } = dist_9({
 
         backgroundLightest: { backgroundColor: de.lightest, },
         colorLightest: { color: de.lightest, },
@@ -17544,7 +17526,7 @@ const getColors = theme => {
 
 const getGraphicalElements = (theme) => {
     const { withUnit } = theme.size;
-    const { style } = dist_10({
+    const { style } = dist_9({
         hr: {
             margin: `${withUnit(0.5)} ${withUnit(1)}`,
         },
@@ -17560,7 +17542,7 @@ const getGraphicalElements = (theme) => {
 };
 
 const getLayout = () => {
-    const { style } = dist_10({
+    const { style } = dist_9({
 
 
         absolute: { position: 'absolute' },
@@ -17617,7 +17599,7 @@ const getLayout = () => {
 };
 
 const getReset = () => {
-    const { style } = dist_10({
+    const { style } = dist_9({
         'html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video': {
             margin: 0,
             padding: 0,
@@ -17650,7 +17632,7 @@ const getReset = () => {
 
 const getShape = (theme) => {
     const { withUnit } = theme.size;
-    const { style } = dist_10({
+    const { style } = dist_9({
         corners: {
             borderRadius: withUnit(0.5),
         },
@@ -17675,7 +17657,7 @@ const getShape = (theme) => {
 
 const getSpacing = (theme) => {
     const { withUnit } = theme.size;
-    const { style } = dist_10({
+    const { style } = dist_9({
         'p-1': { padding: withUnit(1), },
         'p-2': { padding: withUnit(2), },
         'p-3': { padding: withUnit(3), },
@@ -17743,7 +17725,7 @@ const getSpacing = (theme) => {
 
 const getTransitions = (theme) => {
     theme.size;
-    const { style } = dist_10({
+    const { style } = dist_9({
 
         'ease-out-125': { transition: 'all 125ms ease-out', },
         'ease-out-250': { transition: 'all 250ms ease-out', },
@@ -17756,7 +17738,7 @@ const getTransitions = (theme) => {
 };
 
 const getTypographyBasic = () => {
-    const { style } = dist_10({
+    const { style } = dist_9({
         'i, em': {
             fontStyle: 'italic',
         },
@@ -17791,7 +17773,7 @@ const getTypographyBasic = () => {
 
 const getTypographyDisplay = (theme) => {
     const { withUnit } = theme.size;
-    const { style } = dist_10({
+    const { style } = dist_9({
         'h1, h2, .h1, .h2': {
             fontWeight: 100,
             letterSpacing: withUnit(0.05),
@@ -17823,19 +17805,31 @@ const getTypographyDisplay = (theme) => {
     return style
 };
 
-const getBaseStyles = (theme) => ({
-    ...getReset(),
-    ...getBase(theme),
-    ...getButtons(theme),
-    ...getTypographyBasic(),
-    ...getTypographyDisplay(theme),
-    ...getGraphicalElements(theme),
-    ...getShape(theme),
-    ...getSpacing(theme),
-    ...getTransitions(theme),
-    ...getLayout(),
-    ...getColors(theme),
-});
+const angles = {
+    mozWeb: {
+        'diagonal-down': (a, b) => `-45deg, ${a} 0%, ${b} 100%`,
+        'diagonal-up': (a, b) => `45deg, ${a} 0%, ${b} 100%`,
+        vertical: (a, b) => `top, ${a} 0%, ${b} 100%`,
+        horizontal: (a, b) => `left, ${a} 0%, ${b} 100%`,
+        radial: (a, b) => `center, ellipse cover, ${a} 0%, ${b} 100%`,
+    },
+    generic: {
+        'diagonal-down': (a, b) => `135deg, ${a} 0%,${b} 100%`,
+        'diagonal-up': (a, b) => `45deg, ${a} 0%,${b} 100%`,
+        vertical: (a, b) => `to bottom, ${a} 0%,${b} 100%`,
+        horizontal: (a, b) => `to right, ${a} 0%,${b} 100%`,
+        radial: (a, b) => `ellipse at center, ${a} 0%,${b} 100%`,
+    },
+};
+
+function gradient (a, b, angle="vertical") {
+    return {
+        background: a,
+        background: `-moz-linear-gradient(${angles.mozWeb[angle](a, b)})`,
+        background: `-webkit-linear-gradient(${angles.mozWeb[angle](a, b)})`,
+        background: `linear-gradient(${angles.generic[angle](a, b)})`,
+    }
+}
 
 var lodash = createCommonjsModule(function (module, exports) {
 (function() {
@@ -35026,7 +35020,7 @@ var lodash = createCommonjsModule(function (module, exports) {
   }
 }.call(commonjsGlobal));
 });
-lodash.get;
+var lodash_1 = lodash.get;
 lodash.set;
 lodash.forEach;
 lodash.includes;
@@ -35038,6 +35032,37 @@ lodash.isObject;
 lodash.isFunction;
 lodash.isUndefined;
 lodash.reduce;
+
+const shadows = {
+    0: 'none',
+    1: '0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20)',
+    2: '0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.20)',
+    3: '0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.20)',
+    4: '0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.20)',
+    5: '0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.20)',
+    6: '0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.20)',
+    7: '0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20)',
+    8: '0 12px 17px 2px rgba(0,0,0,0.14), 0 5px 22px 4px rgba(0,0,0,0.12), 0 7px 8px -4px rgba(0,0,0,0.20)',
+    9: '0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.20)',
+    10: '0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.20)',
+};
+function shadow (level) {
+    return lodash_1(shadows, level, shadows[0])
+}
+
+const getBaseStyles = (theme) => ({
+    ...getReset(),
+    ...getBase(theme),
+    ...getButtons(theme),
+    ...getTypographyBasic(),
+    ...getTypographyDisplay(theme),
+    ...getGraphicalElements(theme),
+    ...getShape(theme),
+    ...getSpacing(theme),
+    ...getTransitions(theme),
+    ...getLayout(),
+    ...getColors(theme),
+});
 
 var dist$1 = createCommonjsModule(function (module, exports) {
 
@@ -52751,9 +52776,14 @@ const render = (el, contents) => {
 };
 
 const setContents = (el, config) => {
-    const contents = config.render || config.innerHTML || '';
-    el.innerHTML = '';
-    render(el, contents);
+    if (config.dangerouslySetInnerHtml) {
+        debugger;
+        el.innerHTML = config.dangerouslySetInnerHtml;
+    } else {
+        const contents = config.render || '';
+        el.innerHTML = '';
+        render(el, contents);
+    }
 };
 
 var waitForRender = (fn, w=10) => setTimeout(fn, w);
@@ -53056,7 +53086,7 @@ var dist_6 = dist$1.isConfig;
 dist$1.isDomNode;
 dist$1.namespace;
 dist$1.navigate;
-var dist_10$1 = dist$1.r;
+var dist_10 = dist$1.r;
 var dist_11 = dist$1.resolveConfig;
 dist$1.subscribe;
 dist$1.waitForRender;
@@ -53107,7 +53137,7 @@ function clsx () {
 const build = (tag, defaultAttrs={}) => (
     (configOrRender, configOrTrackers) => {
         if (dist_6(configOrRender)) {
-            return dist_10$1(() => {
+            return dist_10(() => {
                 const conf = dist_11(configOrRender);
                 return {
                     ...defaultAttrs,
@@ -53120,7 +53150,7 @@ const build = (tag, defaultAttrs={}) => (
 
         if (dist_6(configOrTrackers)) {
             const conf = dist_11(configOrTrackers);
-            return dist_10$1({
+            return dist_10({
                 ...defaultAttrs,
                 ...conf,
                 class: clsx(defaultAttrs.class, conf.class),
@@ -53129,7 +53159,7 @@ const build = (tag, defaultAttrs={}) => (
             })
         }
 
-        return dist_10$1({
+        return dist_10({
             ...defaultAttrs,
             render: configOrRender,
             tag
@@ -53233,7 +53263,7 @@ const sup =         build('sup');
 const svg = (...args) => {
     if (args.length === 1 && lodash_6(args[0])) {
         const styles = dist_2({svgIcon: { display: 'flex', alignItems: 'center', justifyContent: 'center'}});
-        const el = dist_10$1({
+        const el = dist_10({
             tag: 'div',
             class: styles.svgIcon,
         });
@@ -53299,6 +53329,7 @@ exports.figure = figure;
 exports.footer = footer;
 exports.form = form;
 exports.getBaseStyles = getBaseStyles;
+exports.gradient = gradient;
 exports.h1 = h1;
 exports.h2 = h2;
 exports.h3 = h3;
@@ -53347,6 +53378,7 @@ exports.samp = samp;
 exports.script = script;
 exports.section = section;
 exports.select = select;
+exports.shadow = shadow;
 exports.small = small;
 exports.source = source;
 exports.span = span;
