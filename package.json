@@ -19,8 +19,8 @@
     },
     "homepage": "https://github.com/kjbillings/arsnl-kit#readme",
     "dependencies": {
-        "arsnl": "1.0.0",
-        "jetpak-css": "1.0.0",
+        "arsnl": "1.0.1",
+        "jetpak-css": "1.0.1",
         "clsx": "^1.1.0",
         "fs": "0.0.1-security",
         "lodash": "^4.17.15",
