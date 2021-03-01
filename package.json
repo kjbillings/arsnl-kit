@@ -27,14 +27,14 @@
     },
     "devDependencies": {
         "@rollup/plugin-node-resolve": "^7.1.1",
-        "arsnl": "1.0.3",
+        "arsnl": "1.0.4",
         "rollup": "^2.0.6",
         "rollup-plugin-commonjs": "^10.1.0",
         "rollup-plugin-node-builtins": "^2.1.2",
         "rollup-plugin-sass": "^1.2.2"
     },
     "peerDependencies": {
-        "arsnl": "1.0.3",
+        "arsnl": "1.0.4",
         "fs": "0.0.1-security"
     }
 }

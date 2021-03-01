@@ -12,7 +12,7 @@ function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
-var dist = createCommonjsModule(function (module, exports) {
+var dist$1 = createCommonjsModule(function (module, exports) {
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -17345,21 +17345,21 @@ exports.unpx = unpx;
 exports.update = updateStyleTag;
 });
 
-unwrapExports(dist);
-dist.JetPakCss;
-var dist_2 = dist.css;
-dist.getJetpak;
-dist.getPrefix;
-dist.getPreloader;
-dist.getStyle;
-dist.getStyleTag;
-dist.getTheme;
-var dist_9 = dist.parseCss;
-dist.px;
-dist.stringifyProperties;
-dist.stringifySelectors;
-dist.unpx;
-dist.update;
+unwrapExports(dist$1);
+dist$1.JetPakCss;
+var dist_2 = dist$1.css;
+dist$1.getJetpak;
+dist$1.getPrefix;
+dist$1.getPreloader;
+dist$1.getStyle;
+dist$1.getStyleTag;
+dist$1.getTheme;
+var dist_9 = dist$1.parseCss;
+dist$1.px;
+dist$1.stringifyProperties;
+dist$1.stringifySelectors;
+dist$1.unpx;
+dist$1.update;
 
 const getBase = (theme) => {
     const { style } = dist_9({
@@ -35064,7 +35064,7 @@ const getBaseStyles = (theme) => ({
     ...getColors(theme),
 });
 
-var dist$1 = createCommonjsModule(function (module, exports) {
+var dist = createCommonjsModule(function (module, exports) {
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -52777,7 +52777,6 @@ const render = (el, contents) => {
 
 const setContents = (el, config) => {
     if (config.dangerouslySetInnerHtml) {
-        debugger;
         el.innerHTML = config.dangerouslySetInnerHtml;
     } else {
         const contents = config.render || '';
@@ -53076,20 +53075,20 @@ exports.subscribe = subscribe;
 exports.waitForRender = waitForRender;
 });
 
-unwrapExports(dist$1);
-dist$1.App;
-dist$1.Link;
-dist$1.Router;
-dist$1.State;
-dist$1.extract;
-var dist_6 = dist$1.isConfig;
-dist$1.isDomNode;
-dist$1.namespace;
-dist$1.navigate;
-var dist_10 = dist$1.r;
-var dist_11 = dist$1.resolveConfig;
-dist$1.subscribe;
-dist$1.waitForRender;
+unwrapExports(dist);
+dist.App;
+dist.Link;
+dist.Router;
+dist.State;
+dist.extract;
+var dist_6 = dist.isConfig;
+dist.isDomNode;
+dist.namespace;
+dist.navigate;
+var dist_10 = dist.r;
+var dist_11 = dist.resolveConfig;
+dist.subscribe;
+dist.waitForRender;
 
 function toVal(mix) {
 	var k, y, str='';
