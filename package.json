@@ -19,7 +19,6 @@
     },
     "homepage": "https://github.com/kjbillings/arsnl-kit#readme",
     "dependencies": {
-        "arsnl": "1.0.2",
         "jetpak-css": "1.0.1",
         "clsx": "^1.1.0",
         "fs": "0.0.1-security",
@@ -28,12 +27,14 @@
     },
     "devDependencies": {
         "@rollup/plugin-node-resolve": "^7.1.1",
+        "arsnl": "1.0.3",
         "rollup": "^2.0.6",
         "rollup-plugin-commonjs": "^10.1.0",
         "rollup-plugin-node-builtins": "^2.1.2",
         "rollup-plugin-sass": "^1.2.2"
     },
     "peerDependencies": {
+        "arsnl": "1.0.3",
         "fs": "0.0.1-security"
     }
 }
