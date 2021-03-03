@@ -17594,6 +17594,8 @@ const getLayout = () => {
         cursorPointer: { cursor: 'pointer' },
         clickable: { cursor: 'pointer' },
 
+        center: { margin: '0 auto' },
+
     }, { prefix: false });
     return style
 };
@@ -17767,7 +17769,16 @@ const getTypographyBasic = (theme) => {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-        }
+        },
+        '.light': {
+            fontWeight: 100,
+        },
+        '.no-air': {
+            letterSpacing: withUnit(0.01),
+        },
+        '.air': {
+            letterSpacing: withUnit(0.5),
+        },
     }, { tagsOnly: true });
     return style
 };
@@ -17776,11 +17787,8 @@ const getTypographyDisplay = (theme) => {
     const { withUnit } = theme.size;
     const { style } = dist_9({
         'h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6': {
-            fontWeight: 100,
+            fontWeight: 600,
             letterSpacing: withUnit(0.05),
-        },
-        'h4, .h4, h5, .h5, h6, .h6': {
-            fontWeight: 200,
         },
         'h1, .h1, h2, .h2': {
             letterSpacing: withUnit(0.05),
@@ -35056,8 +35064,8 @@ const getBaseStyles = (theme) => ({
     ...getReset(),
     ...getBase(theme),
     ...getButtons(theme),
-    ...getTypographyBasic(theme),
     ...getTypographyDisplay(theme),
+    ...getTypographyBasic(theme),
     ...getGraphicalElements(theme),
     ...getShape(theme),
     ...getSpacing(theme),
