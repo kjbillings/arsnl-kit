@@ -12,6 +12,8 @@ export default {
     watch: {
         include: [
             'src/**',
+            '../arsnl/**',
+            '../jetpak-css/**',
         ]
     },
     plugins: [
@@ -21,9 +23,12 @@ export default {
         commonjs({
             include: [
                 'node_modules/**',
+                '../arsnl/**',
+                '../jetpak-css/**',
             ],
             namedExports: {
                 'node_modules/lodash/lodash.js': [
+                    'cloneDeep',
                     'get',
                     'set',
                     'forEach',
@@ -35,6 +40,7 @@ export default {
                     'isObject',
                     'isFunction',
                     'isUndefined',
+                    'merge',
                     'reduce',
                 ]
             }

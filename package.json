@@ -19,7 +19,6 @@
     },
     "homepage": "https://github.com/kjbillings/arsnl-kit#readme",
     "dependencies": {
-        "jetpak-css": "1.0.1",
         "clsx": "^1.1.0",
         "fs": "0.0.1-security",
         "lodash": "^4.17.15",
@@ -27,14 +26,16 @@
     },
     "devDependencies": {
         "@rollup/plugin-node-resolve": "^7.1.1",
-        "arsnl": "1.0.6",
+        "arsnl": "file:../arsnl",
+        "jetpak-css": "file:../jetpak-css",
         "rollup": "^2.0.6",
         "rollup-plugin-commonjs": "^10.1.0",
         "rollup-plugin-node-builtins": "^2.1.2",
         "rollup-plugin-sass": "^1.2.2"
     },
     "peerDependencies": {
-        "arsnl": "1.0.6",
-        "fs": "0.0.1-security"
+        "arsnl": "file:../arsnl",
+        "fs": "0.0.1-security",
+        "jetpak-css": "file:../jetpak-css"
     }
 }
