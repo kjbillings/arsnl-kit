@@ -17814,6 +17814,7 @@ const createTheme = (theme, defaultTheme=DEFAULT_THEME) => {
     const withUnit = n => n + getUnit(formatted);
     setUnits(formatted);
     lodash_3(formatted, 'size.withUnit', withUnit);
+
     return formatted
 };
 

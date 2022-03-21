@@ -1,0 +1,121 @@
+Static
+    Theme
+        BaseStyles
+        Colors
+        Size
+        Spacing
+        Shadows
+            Box-shadow
+            Text-shadow
+        Animations
+            Transitions
+                Fade
+                Slide
+                Grow
+            Loops
+        Typography
+            Headings
+                Titles
+                Subtitles
+            Body
+            Caption
+
+    Graphics
+        Charts
+        Lines
+        Shapes
+        Icons
+        Indicators
+            Progress
+            Processing
+        Images
+            Resize
+            Fallback
+            Avatars
+
+    Layout
+        Header
+        Footer
+        Sticky
+        Rail
+        Box
+        Container
+        Grid
+            Columns
+            Rows
+        Surface
+        List
+        Skeleton
+        Divider
+            Orientation
+
+Dynamic
+    Inform
+        Badge
+        Tooltip
+        Notification
+        Dialog
+        Overlay
+        Backdrop
+        Counter
+        Anchor Point
+        Line
+
+    Layout
+        Hidden
+            transition-animation
+        Drawer
+        Accordion
+        Tree View
+        Stepper
+        Menu
+            Horizontal
+            Vertical
+            Active
+        Pagination
+        SmartGrid (like masonry)
+        Focus-trap
+
+    Interact
+        Link
+        Select
+        Selectable
+        Focusable
+        Slider
+        Button
+            group
+            confirmation
+        Radio
+        Checkbox
+        Switch
+        Calendar
+        Clock
+        Graph
+            (set amounts of things)
+        Draggable
+        Droppable
+        Breadcrumbs
+
+    Type
+        Typeahead
+            suggestions
+                autocompletes
+        Text
+            single line
+            multi-line
+            max-characters
+            min-characters
+            rich-text-features
+            mentionables
+
+        Numbers
+            round-up
+            round-down
+            math
+            diplay-handler
+            max-value
+            min-value
+            adder
+            subtractor
+
+    Validate
